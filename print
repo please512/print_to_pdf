@@ -1,0 +1,169 @@
+<template>
+    <div>
+        <a-button @click="dayin">打 印</a-button>
+        <div id="biao">
+            <table>
+                <thead>
+                    <tr style="width:100%;">
+                        <th style="border:1px solid black;">姓名</th>
+                        <th style="border:1px solid black;">年龄</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in datas" :key="index">
+                        <td style="border:1px solid black;">{{item.name}}</td>
+                        <td style="border:1px solid black;">{{item.age}}</td>
+                        <td style="border:1px solid black;">{{item.office}}</td>
+                        <td style="border:1px solid black;">{{item.work}}</td>
+                        <td style="border:1px solid black;">{{item.job}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>
+
+
+export default {
+    name:'home',
+    mounted(){
+        
+    },
+    data () {
+        return {
+            随机列举一些数据 //
+            datas:[{
+                name:'李正阳',
+                age:27,
+                sex:'男',
+                post:'前端',
+                home:'郑州',
+                office:4805,
+                work:'电动车',
+                job:'2019-03-29',
+            },{
+                name:'杨刘彬',
+                age:31,
+                sex:'男',
+                post:'前端',
+                home:'郑州',
+                office:4805,
+                work:'地铁',
+                job:'2019-01-29',
+            },{
+                name:'陈亚力',
+                age:31,
+                sex:'男',
+                post:'前端',
+                home:'兰考',
+                office:4805,
+                work:'步行',
+                job:'2019-02-29',
+            },{
+                name:'牛锦涛',
+                age:19,
+                sex:'男',
+                post:'UI',
+                home:'卫辉',
+                office:4805,
+                work:'地铁',
+                job:'2019-05-29',
+            },{
+                name:'宣言姐',
+                age:27,
+                sex:'女',
+                post:'UI',
+                home:'商丘',
+                office:4805,
+                work:'地铁',
+                job:'2018-03-29',
+            },{
+                name:'李霄雨',
+                age:30,
+                sex:'男',
+                post:'后端',
+                home:'新乡',
+                office:4804,
+                work:'汽车',
+                job:'2019-04-29',
+            },{
+                name:'李霄雨',
+                age:30,
+                sex:'男',
+                post:'后端',
+                home:'新乡',
+                office:4804,
+                work:'汽车',
+                job:'2019-04-29',
+            },{
+                name:'李霄雨',
+                age:30,
+                sex:'男',
+                post:'后端',
+                home:'新乡',
+                office:4804,
+                work:'汽车',
+                job:'2019-04-29',
+            },{
+                name:'李霄雨',
+                age:30,
+                sex:'男',
+                post:'后端',
+                home:'新乡',
+                office:4804,
+                work:'汽车',
+                job:'2019-04-29',
+            },]
+        }
+    },
+    methods:{
+        dayin(){
+            var header=['姓名','年龄','性别','入职日期']
+            var column=['name','age','sex','job']
+            this.print(header,column,this.datas)
+        },
+        打印时传入三个参数，分别为表头(Array)、表头数组各个所对应的prop参数(Array)、数据(Array) //
+        print(header,column,data){
+            var printbody=document.getElementById('biao').innerHTML
+            var oPop = window.open('','oPop');
+            模板字符串组成要打印的内容，样式可编辑 //
+            var str = '<!DOCTYPE html>'
+                    str +='<html>'
+                    str +='<head>'
+                    str +='<meta charset="utf-8">'
+                    str +='<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'
+                    str +='</head>'
+                    str +='<body>'
+
+                    //表体
+                    for(let k=0;k<(data.length%5?data.length/5:data.length/5+1);k++){
+                        // str +='</div style="page-break-after:always">'
+                        str +='<table style="width:100%;border-collapse :collapse;">'
+                        str +='<p style="text-align:center ">功课表</p>'
+                        //表头
+                        str +='<tr>'
+                        for(let i=0;i<header.length;i++){
+                            str +=`<th style="height:40px;border :1px solid black;font-size:12px;text-align :center;">${header[i]}</th>`
+                        }
+                        str +='</tr>'
+                        for(let i=0;i<data.length;i++){
+                            str +='<tr>'
+                            for(let j=0;j<column.length;j++){
+                                str +=`<td style="height:40px;border :1px solid black;font-size:12px;text-align :center;">${data[i][column[j]]}</td>`
+                            }
+                            str +='</tr>'
+                        }
+                        str +='</table>'
+                        page-break-after:always" 换行//
+                        str +='<div style="page-break-after:always"></div>'
+                    }
+
+                    str +='</body>'
+                    str +='</html>'
+            oPop.document.write(str);
+            oPop.print();
+		        oPop.close();
+        },
+    }
+    
+}
