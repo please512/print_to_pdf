@@ -120,50 +120,50 @@ export default {
         dayin(){
             var header=['姓名','年龄','性别','入职日期']
             var column=['name','age','sex','job']
-            this.print(header,column,this.datas)
+            this.print('表格的标题',14,header,column,data)
         },
-        打印时传入三个参数，分别为表头(Array)、表头数组各个所对应的prop参数(Array)、数据(Array) //
-        print(header,column,data){
-            var printbody=document.getElementById('biao').innerHTML
-            var oPop = window.open('','oPop');
-            模板字符串组成要打印的内容，样式可编辑 //
-            var str = '<!DOCTYPE html>'
-                    str +='<html>'
-                    str +='<head>'
-                    str +='<meta charset="utf-8">'
-                    str +='<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'
-                    str +='</head>'
-                    str +='<body>'
+        export function print(title,limit,header,column,data){
+	    // 打印时传入三个参数，参数分别代表 表格的标题，每页的条数，表头，column为数据对应的字段，data为数据Array
+	    var oPop = window.open('','oPop');
+	    var str = '<!DOCTYPE html>'
+		str +='<html>'
+		str +='<head>'
+		str +='<meta charset="utf-8">'
+		str +='<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'
+		str +='</head>'
+		str +='<body>'
+		//分页
+		var page=data.length%limit?parseInt(data.length/limit)+1:parseInt(data.length/limit)
+		for(let k=0;k<page;k++){
+		    str +='<table style="width:100%;border-collapse :collapse;">'
+		    str +=`<p style="text-align:center ">${title}</p>`
+		    //表头
+		    str +='<tr>'
+		    for(let i=0;i<header.length;i++){
+			str +=`<th style="height:40px;border :1px solid black;font-size:12px;text-align :center;">${header[i]}</th>`
+		    }
+		    str +='</tr>'
 
-                    //表体
-                    for(let k=0;k<(data.length%5?data.length/5:data.length/5+1);k++){
-                        // str +='</div style="page-break-after:always">'
-                        str +='<table style="width:100%;border-collapse :collapse;">'
-                        str +='<p style="text-align:center ">功课表</p>'
-                        //表头
-                        str +='<tr>'
-                        for(let i=0;i<header.length;i++){
-                            str +=`<th style="height:40px;border :1px solid black;font-size:12px;text-align :center;">${header[i]}</th>`
-                        }
-                        str +='</tr>'
-                        for(let i=0;i<data.length;i++){
-                            str +='<tr>'
-                            for(let j=0;j<column.length;j++){
-                                str +=`<td style="height:40px;border :1px solid black;font-size:12px;text-align :center;">${data[i][column[j]]}</td>`
-                            }
-                            str +='</tr>'
-                        }
-                        str +='</table>'
-                        page-break-after:always" 换行//
-                        str +='<div style="page-break-after:always"></div>'
-                    }
+		    //表体 每页的行数
+		    var hang=(k+1)*limit<=data.length?limit:data.length-limit*k
+		    for(let i=0;i<hang;i++){
+			str +='<tr>'
+			for(let j=0;j<column.length;j++){
+			    str +=`<td style="height:40px;border :1px solid black;font-size:12px;text-align :center;">${data[k*limit+i][column[j]]}</td>`
+			}
+			str +='</tr>'
+		    }
+		    str +='</table>'
+		    str +='<div style="page-break-after:always"></div>'
+		}
 
-                    str +='</body>'
-                    str +='</html>'
-            oPop.document.write(str);
-            oPop.print();
-		        oPop.close();
-        },
+		str +='</body>'
+		str +='</html>'
+	    oPop.document.write(str);
+	    oPop.print();
+	    oPop.close();
+	}
+
     }
     
 }
